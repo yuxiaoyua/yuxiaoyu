@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            list-style-type:none;
+        }
+        ul{
+            width: 900px;
+            margin:50px auto;
+        }
+        ul li{
+            width: 300px;
+            height:199px;
+            float: left;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10%;
+        }
+        ul li img{
+            width: 100%;
+            position: absolute;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <ul>
+        <li><img src="images/1.jpg" alt=""></li>
+        <li><img src="images/2.jpg" alt=""></li>
+        <li><img src="images/3.jpg" alt=""></li>
+        <li><img src="images/4.jpg" alt=""></li>
+        <li><img src="images/5.jpg" alt=""></li>
+        <li><img src="images/6.jpg" alt=""></li>
+    </ul>
+</div>
+<script src="jquery1.7.js"></script>
+<script>
+    $(function () {
+        var w=$("ul li").width();
+        var h=$("ul li").height();
+        var bs=1.5;
+        $("ul li img").hover(function () {
+           $(this).stop().animate({
+               "width":bs*w,
+               "height":bs*h,
+               "left":-(bs*w-w)/2,
+               "top":-(bs*h-h)/2
+           },600)
+        },function () {
+            $(this).stop().animate({
+                "width":w,
+                "height":h,
+                "left":0,
+                "top":0
+            },600)
+        })
+    })
+</script>
+</html>
