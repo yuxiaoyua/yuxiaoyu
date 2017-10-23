@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        #id{
+            width:800px;
+            height:355px;
+        }
+        .bigpic,.smallpic {
+            width:352px;
+            height:355px;
+            border:1px #ccc solid;
+            float: left;
+            margin-left: 20px;
+            position:relative;
+        }
+        .bigpic{
+            overflow: hidden;
+        }
+        .bigpic img{
+            position: absolute;
+        }
+        .mark{
+            width:117px;
+            height:117px;
+            background: blue;
+            opacity: 0.5;
+            position:absolute;
+            left:0;
+            top:0;
+        }
+    </style>
+</head>
+<body>
+<div id="id">
+    <div class="smallpic"><img src="images/s.jpg" alt=""><div class="mark"></div></div>
+    <div class="bigpic"><img src="images/b.jpg" alt=""></div>
+</div>
+<script src="jquery1.7.js"></script>
+<script>
+    $(function () {
+        $(".smallpic").on("mousemove",function (e) {
+            var Tx=e.pageX-$(".mark").width()/2;
+            var Ty=e.pageY-$(".mark").height()/2;
+            var maW=$(this).outerWidth()-$(".mark").width();
+            var maH=$(this).outerHeight()-$(".mark").height();
+            if(Tx<0){
+                Tx=0;
+            }else if(Tx>maW){
+                Tx=maW
+            }
+            if(Ty<0){
+                Ty=0;
+            }else if(Ty>maH){
+                Ty=maH
+            }
+            $(".mark").css({"left":Tx,"top":Ty})
+            var val=($(".bigpic").width()-$(".bigpic img").width())/($(this).width()-$(".mark").width())
+            $(".bigpic img").css({"left":Tx*val,"top":Ty*val})
+        })
+    })
+</script>
+</body>
+</html>
