@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        body{
+            font:12px;
+        }
+        #calc{
+            position:absolute;
+            left:50%;
+            top:30%;
+            margin:-161px 0 0 -120px;
+            width:230px;
+            background-color:#C4D2E0;
+            padding:3px;
+        }
+        #display{
+            width:230px;
+            height:60px;
+            background-color:#808080;
+        }
+        #display #top, #display #bottom{
+            height:20px;
+            padding:0 5px;
+            text-align:right;
+            font:14px;
+        }
+        #display #top .countSize{
+            padding:0 5px;
+			overflow:hidden;
+
+		}
+        #display #bottom{
+            height:40px;
+            font:bold 20px "Arial";
+			overflow:hidden;
+
+		}
+        #buttons{
+            width:230px;
+            text-align:center;
+        }
+        #buttons input{
+            float:left;
+            display:block;
+            width:50px;
+            overflow:hidden;
+        }
+        #buttons #num{
+            float:left;
+            width:160px;
+            overflow:hidden;
+        }
+        #buttons #num input{
+            height:40px;
+            margin:3px 3px 0 0;
+        }
+        #buttons #math{
+            float:left;
+            width:70px;
+            overflow:hidden;
+        }
+        #buttons #math input{
+            width:70px;
+            height:32px;
+            margin:3px 0 0 0;
+        }
+        #buttons #math input#equal{
+            height:30px;
+        }
+        #num input{
+        background:url(img/f.jpg) no-repeat;
+        width:50px;
+        height:35px;
+        }
+        #math input {
+        background:url(img/f.jpg) no-repeat;
+        width:40px;
+        height:35px;
+        }
+    </style>
+</head>
+<body>
+<div id="calc" style="margin-top:20px">
+	<div id="display">
+		<div id="top">
+
+        </div>
+		<div id="bottom">0</div>
+	</div>
+	<div id="buttons">
+		<div id="num">
+			<input type="button" value="7" class="num" id="seven" />
+			<input type="button" value="8" class="num" id="eight" />
+			<input type="button" value="9" class="num" id="nine" />
+			<input type="button" value="4" class="num" id="four" />
+			<input type="button" value="5" class="num" id="five" />
+			<input type="button" value="6" class="num" id="six" />
+			<input type="button" value="1" class="num" id="one" />
+			<input type="button" value="2" class="num" id="two" />
+			<input type="button" value="3" class="num" id="three" />
+			<input type="button" value="C" class="clearDisplay" id="clearDisplay" />
+			<input type="button" value="0" class="num" id="zero" />
+			<input type="button" value="." class="num" id="point" />
+		</div>
+		<div id="math">
+			<input type="button" value="/" class="math" id="chu" />
+			<input type="button" value="*" class="math" id="cheng" />
+			<input type="button" value="-" class="math" id="jian" />   
+            <input type="button" value="+" class="math" id="jia" />
+			<input type="button" value="=" class="equal" id="equal" />
+		</div>
+	</div>
+</div>
+ <script src="js/jQ.js"></script>
+<script>
+	$(function () {
+		$("#num").on("click",".num",function () {
+            var bot=$("#bottom").text();
+            var val=$(this).val();
+            if(bot=="0"){
+                if(val=="."){
+                    $("#bottom").append(val)
+				}else{
+                    $("#bottom").html(val)
+				}
+            }else{
+                if(bot.indexOf(".")!=-1){
+					if(val!="."){
+                        $("#bottom").append(val)
+					}
+				}else{
+                    $("#bottom").append(val)
+                }
+			}
+        })
+		$(".math").on("click",function () {
+			var fha=$(this).val();
+            var bot=$("#bottom").text();
+            var nus=$(".nums").text();
+            var mts=$(".mats").text();
+			if(nus.length!=0 && mts.length!=0 && bot.length!=0){
+			    var a=numss[mts](nus,bot);
+			    console.log(a);
+			    $(".nums").text(a);
+			    $(".mats").text(fha)
+			    $("#bottom").text("");
+			}else{
+                $("#top").html("<span class='nums'>"+bot+"</span><span class='mats'>"+fha+"</span>");
+                $("#bottom").text("")
+			}
+        })
+		$("#equal").on("click",function () {
+            var bot=$("#bottom").text();
+            var nus=$(".nums").text();
+            var mts=$(".mats").text();
+            var a=numss[mts](nus,bot);
+            $("#bottom").text(a)
+            $("#top").text("")
+        })
+		var numss={
+            "+":function (a,b) {return a*1+b*1},
+			"-":function (a,b) {return a-b},
+			"*":function (a,b) {return a*b},
+			"/":function (a,b) {return a/b},
+		}
+    })
+/*	$(function () {
+		$("#num").on("click",".num",function () {
+			var val=$(this).val();
+			if($("#bottom").text()==="0"){
+                if(isNaN(val)){
+                    var str=$("#bottom").text();
+                    str+=val;
+                    $("#bottom").html(str)
+                }else{
+                    $("#bottom").html(val)
+                }
+			}else{
+                var str=$("#bottom").text();
+                str+=val;
+                $("#bottom").html(str)
+				if(isNaN(str+"."+1)){
+                    $("#point").prop("disabled",true)
+				}
+			}
+        })
+		$("#math").on("click",".math",function () {
+			var str=$("#bottom").text();
+			var xj=$(this).val();
+			if(str==0 && xj=="/"){
+			    alert("除数不能为零")
+			}else if(str==""){
+
+			}else{
+                $("#top").html(str+xj)
+                $("#bottom").html("");
+			}
+        })
+		$("#equal").on("click",function () {
+   			ifelse();
+        })
+		$("#clearDisplay").on("click",function () {
+			$("#bottom").html(0);
+            $("#top").html("");
+            $("#point").prop("disabled",false)
+        })
+		function  ifelse() {
+		    var str=$("#bottom").text();
+            var xjs=$("#top").text();
+            console.log(xjs)
+            var jqz=xjs.slice(-1);
+            console.log(jqz)
+            if(jqz=="/"){
+                var a=xjs.slice(0,-1);
+                if(str==0){
+                    alert("被除数不能为零");
+                    $("#bottom").html("");
+                    $("#top").html("");
+                    $("#point").prop("disabled",false)
+                }else{
+                    $("#bottom").html(a/str)
+                    $("#top").html("")
+                }
+            } else if(jqz=="*"){
+                var a=xjs.slice(0,-1);
+                $("#bottom").html(a*str)
+                $("#top").html("")
+            }else if(jqz=="+"){
+                var a=xjs.slice(0,-1);
+                $("#bottom").html(Number(a)+Number(str))
+                $("#top").html("")
+            }else if(jqz=="-"){
+                var a=xjs.slice(0,-1);
+                $("#bottom").html(a-str)
+                $("#top").html("")
+            }
+        }
+    })*/
+</script>
+
+</body>
+</html>
